@@ -2,11 +2,27 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Pages Test</title>
+  <title>Phaser Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
 </head>
 <body>
-  <h1>GitHub Pages is working ✅</h1>
-  <p>If you see this, index.html is loading.</p>
+<script>
+  const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 400,
+    backgroundColor: '#222222',
+    scene: {
+      create() {
+        this.add.text(200, 180, 'PHASER LOADED ✅', {
+          fontSize: '32px',
+          fill: '#ffffff'
+        });
+      }
+    }
+  };
+
+  new Phaser.Game(config);
+</script>
 </body>
 </html>
-
