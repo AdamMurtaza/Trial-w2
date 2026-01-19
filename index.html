@@ -39,23 +39,19 @@ function create () {
   platforms = this.physics.add.staticGroup();
 
   // Ground
-  platforms.create(400, 430)
-    .setDisplaySize(800, 40)
-    .refreshBody();
+  platforms.create(400, 430, null).setDisplaySize(800, 40).setOrigin(0.5,0.5).refreshBody().setFillStyle(0x888888);
 
   // Floating platforms
-  platforms.create(600, 300)
-    .setDisplaySize(200, 20)
-    .refreshBody();
-  platforms.create(200, 220)
-    .setDisplaySize(200, 20)
-    .refreshBody();
+  platforms.create(600, 300, null).setDisplaySize(200, 20).setOrigin(0.5,0.5).refreshBody().setFillStyle(0x888888);
+  platforms.create(200, 220, null).setDisplaySize(200, 20).setOrigin(0.5,0.5).refreshBody().setFillStyle(0x888888);
 
-  // Player (red rectangle)
-  player = this.physics.add.rectangle(100, 300, 40, 50, 0xff0000);
+  // Player (red rectangle) - visible and physics enabled
+  player = this.add.rectangle(100, 300, 40, 50, 0xff0000);
+  this.physics.add.existing(player);
   player.body.setCollideWorldBounds(true);
   player.body.setBounce(0.1);
 
+  // Collision with platforms
   this.physics.add.collider(player, platforms);
 }
 
