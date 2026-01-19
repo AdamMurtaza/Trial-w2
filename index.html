@@ -2,27 +2,79 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Phaser Test</title>
+  <title>Phaser Platformer Test</title>
   <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
 </head>
 <body>
-<script>
-  const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 400,
-    backgroundColor: '#222222',
-    scene: {
-      create() {
-        this.add.text(200, 180, 'PHASER LOADED ✅', {
-          fontSize: '32px',
-          fill: '#ffffff'
-        });
-      }
-    }
-  };
 
-  new Phaser.Game(config);
+<script>
+const config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 450,
+  backgroundColor: '#87CEEB', // sky blue
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 800 },
+      debug: false
+    }
+  },
+  scene: {
+    create,
+    update
+  }
+};
+
+const game = new Phaser.Game(config);
+
+let player;
+let platforms;
+let cursors;
+
+function create () {
+  cursors = this.input.keyboard.createCursorKeys();
+
+  // Platforms (static rectangles)
+  platforms = this.physics.add.staticGroup();
+
+  // Ground
+  platforms.create(400, 430)
+    .setDisplaySize(800, 40)
+    .refreshBody();
+
+  // Floating platforms
+  platforms.create(600, 300)
+    .setDisplaySize(200, 20)
+    .refreshBody();
+  platforms.create(200, 220)
+    .setDisplaySize(200, 20)
+    .refreshBody();
+
+  // Player (red rectangle)
+  player = this.physics.add.rectangle(100, 300, 40, 50, 0xff0000);
+  player.body.setCollideWorldBounds(true);
+  player.body.setBounce(0.1);
+
+  this.physics.add.collider(player, platforms);
+}
+
+function update () {
+  // Left / Right movement
+  if (cursors.left.isDown) {
+    player.body.setVelocityX(-200);
+  } else if (cursors.right.isDown) {
+    player.body.setVelocityX(200);
+  } else {
+    player.body.setVelocityX(0);
+  }
+
+  // Jump
+  if (cursors.up.isDown && player.body.touching.down) {
+    player.body.setVelocityY(-450);
+  }
+}
 </script>
+
 </body>
 </html>
